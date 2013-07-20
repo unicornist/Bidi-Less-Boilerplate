@@ -1,22 +1,36 @@
-Less Boilerplate
+Bidi Less Boilerplate
 =============================
 
-Boilerplate CSS written in [Less.CSS](http://lesscss.org/), the dynamic stylesheet language. It includes: 
+Bidirectional Boilerplate CSS written in [Less.CSS](http://lesscss.org/), the dynamic stylesheet language. It includes: 
 
-- CSS Reset
-- CSS3 Helpers (box radius, gradients, box shadow, transition)
-- Centered column blocks
-- Horizontal centering for objects of variable width
-- A fancy call to action button
-- A few general styles and sensible defaults (including a clearfix)
+- Improved CSS Reset
+- Some default styles
+- Bidi Mixins that will reverse all right/left styles via @rtl variable
+--- direction
+--- float
+--- clear
+--- padding
+--- margin
+--- background-position
+--- border
+--- text
+--- align
+- Crossbrowser CSS3 and Short-Code Mixins (with old IE support)
+--- font : converts font-size to EM unit, easy to specify family,size,line-height & weight together
+--- opacity
+--- border-radius
+--- box-shadow
+--- user-select
+--- transition
+--- rgba
+--- gradient
 
-I went through my recent design projects and pulled out these styles that I use all the time to create an easy-to-import stylesheet. They help me get a new design started, and I hope they help you too!
+We used original boilerplate project then for some Multilingual project that included Bidirectional Languages that needed "direction: rtl", we added Bidi Mixins to easily switch between RTL/LTR mode and compile two different CSS with reversed layout using one .LESS resource
 
-If you like how this looks but you're a SASS coder, check out [SASS Boilerplate](http://mgeraci.github.com/SASS-Boilerplate).
 
 Demo
 ---------
-[Right this way](http://mgeraci.github.com/Less-Boilerplate/).
+Coming Soon
 
 Usage
 --------

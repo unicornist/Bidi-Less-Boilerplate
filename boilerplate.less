@@ -1,43 +1,234 @@
-// ========================================================= //
-// =             Boilerplate Less CSS Styles               = //
-// =  by Michael P. Geraci, 2011 - www.michaelgeraci.com   = //
-// =  tell me what's missing: mgeraci@gmail.com | @mgeraci = //
-// =     free for all to use and modify (MIT License)      = //
-// ========================================================= //
+// ============================================================================================================================ //
+// ===============================================        Version History       =============================================== //
+// ============================================================================================================================ //
+// 2.2    babak   -   some re-arrangements 
+// 2.1    saeed   -   added -o & -ms on all mixins
+// 2.0    saeed   -   added .text-shadow with IE support, but failed
+// 1.9    babak   -   minor improvements, re-arrangements, inline documentations
+// 1.8.3  saeed   -   removed unwanted features, added user-select mixin
+// 1.8.2  saeed   -   add default size to .font mixin
+// 1.8.1  saeed   -   remove webkit focus outline and add .clear
+// 1.8    babak   -   tottally revised bidi mixins (names changed also), removed .floatclear
+// 1.7    babak   -   refactored all bidi mixins/classes to use far/near instead of left/rigth also with some normalization
+//            removed form's deafult to .inblock to support asp.net websites.
+// 1.6    babak   -   added .text-shadow mixin for later expansion (wihthout IE support),
+//            changed all CSS3 namings (eg. .boxShadow to .box-shadow),
+//            name changes to bidi float mixins and classes,
+//            added no-bullet as li's default,
+//            added a single parameter (only size) mixin overload for .font,
+//            little document re-arrangements & inline documentations
+// 1.5    babak   -   added .inblock to form's default
+// 1.4    babak   -   added bidi support (initial concepts & currently float only. padding & margin needs work)
+// 1.3    babak   -   added overloadings for font mixin
+// 1.2    babak   -   removed button mixin, fixed reset, document re-arrangement
+// 1.1    saeed   -   added some css3 mixins with pie support 
+// 1.0    mgeraci -   original LESS Boilerplate Project
+// ============================================================================================================================ //
+// ============================================================================================================================ //
 
-
-// ============= //
-// = CSS Reset = //
-// ============= //
-
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, tt, var, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video{
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  vertical-align: baseline;
-  background: transparent;
-  font-weight: inherit;
-  font-style: inherit;
-  font-size: 100%;
-  font-family: inherit;
+// -------------------- CSS Reset & Defaults -------------------- //
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, s, samp, small, strike, strong, tt, var, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, em, dfn, var, code, samp, del, ins, cite {
+    margin: 0; padding: 0; border: 0; outline: 0; vertical-align: baseline; background: transparent; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; text-decoration: none;
 }
-
-// HTML5 display-role reset for older browsers
+* {
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  &:focus { outline: none; }
+}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
-  display: block;
+    display: block;
+}
+body, input, button, textarea, select, td {
+  font-size: 1em;
+  font-family: Tahoma, helvetica, arial, verdana, sans-serif;
+  text-rendering: optimizeLegibility; // enable better kerning and ligatures for Webkit. FF has this enabled by default for fonts >= 20px. IE does not support this
+}
+html { width: 100%; height: 100%; }
+body { height: 100%; position: relative; }
+input[type=submit], input[type=button], input[type=reset], button, a {cursor:pointer;}
+ul { list-style-type: none;}
+@baseWidth: 960px;
+
+
+// -------------------- Bidi Mixins (far/near)  -------------------- //
+
+@rtl: false; // change, to reverse all mixins with far/near
+.direction() when (@rtl=false) { direction: ltr; }
+.direction() when (@rtl=true) { direction: rtl; }
+
+.float(far) when (@rtl=false) { float: right; }
+.float(far) when (@rtl=true)  { float: left; }
+.float(near) when (@rtl=false) { float: left; }
+.float(near) when (@rtl=true) { float: right; }
+
+.clear(far) when (@rtl=false) { clear: right; }
+.clear(far) when (@rtl=true) { clear: left; }
+.clear(near) when (@rtl=false) { clear: left; }
+.clear(near) when (@rtl=true) { clear: right; }
+
+.padding-far(@a) when (@rtl=false) { padding-right: @a; }
+.padding-far(@a) when (@rtl=true) { padding-left: @a; }
+.padding-near(@a) when (@rtl=false) { padding-left: @a; }
+.padding-near(@a) when (@rtl=true) { padding-right: @a; }
+
+.margin-far(@a) when (@rtl=false) { margin-right: @a; }
+.margin-far(@a) when (@rtl=true) { margin-left: @a; }
+.margin-near(@a) when (@rtl=false) { margin-left: @a; }
+.margin-near(@a) when (@rtl=true) { margin-right: @a; }
+
+.background-position(far, @a) when (@rtl=false) { background-position: right @a; }
+.background-position(far, @a) when (@rtl=true) { background-position: left @a; }
+.background-position(near, @a) when (@rtl=false) { background-position: left @a; }
+.background-position(near, @a) when (@rtl=true) { background-position: right @a; }
+
+.border-far(@a) when (@rtl=false) { border-right: @a; }
+.border-far(@a) when (@rtl=true) { border-left: @a; }
+.border-near(@a) when (@rtl=false) { border-left: @a; }
+.border-near(@a) when (@rtl=true) { border-right: @a; }
+
+.text-align(far) when (@rtl=false) { text-align: right; }
+.text-align(far) when (@rtl=true) { text-align: left;  }
+.text-align(near) when (@rtl=false) { text-align: left;  }
+.text-align(near) when (@rtl=true) { text-align: right;  }
+
+
+// -------------------- General Classes  -------------------- //
+
+.right { float: right; }
+.left  { float: left; }
+.far { .float(far); }
+.near { .float(near); }
+
+.inblock { display: inline-block; }
+
+.clearfix {
+  zoom: 1;
+  &:after{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+.clear {clear:both; float: none !important;}
+.inblock { display: inline-block; }
+.pie { behavior: url("PIE.htc"); }
+
+// -------------------- Parametric Mixin (+CrossBrowser CSS3 Support) -------------------- //
+
+.font (@font, @size: 16) {
+  font-family: @font;
+  font-size: round(@size*(10/16))/10em;
+}
+.font (@font, @size) {
+  font-family: @font;
+  font-size: round(@size*(10/16))/10em;
+}
+.font (@font, @size, @weight) when not (isnumber(@weight)) {
+  font-family: @font;
+  font-size: round(@size*(10/16))/10em;
+  font-weight: @weight;
+}
+.font (@font, @size, @height) when (isnumber(@height))  {
+  font-family: @font;
+  font-size: round(@size*(10/16))/10em;
+  line-height: @height;
+}
+.font (@font, @size, @weight, @height) {
+  font-family: @font;
+  font-size: round(@size*(10/16))/10em;
+  font-weight: @weight;
+  line-height: @height;
+}
+
+.background (@bg) {
+  background: @bg;
+  -pie-background: @bg;
+  -pie-png-fix: true;
+    .pie;
+}
+
+.opacity (@percent) {
+  filter: ~"alpha(opacity=@{percent})";
+  -ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(Opacity=@{percent})";
+  opacity: @percent/100;
+    .pie;
+}
+
+.border-radius (@radius) {
+  -webkit-border-radius: @radius; // FF 1+
+   -khtml-border-radius: @radius;
+     -moz-border-radius: @radius; // FF 1+
+       -o-border-radius: @radius;
+          border-radius: @radius; // Opera 10.5, IE 9, Saf5, Chrome
+    .pie;
+}
+.border-radius (@radius, top) { .border-radius (@radius @radius 0 0); }
+.border-radius (@radius, right) { .border-radius (0 @radius @radius 0); }
+.border-radius (@radius, bottom) { .border-radius (0 0 @radius @radius); }
+.border-radius (@radius, left) { .border-radius (@radius 0 0 @radius); }
+
+.text-shadow(@params) {
+  text-shadow: @params;
+}
+
+.box-shadow (@params) {
+  -webkit-box-shadow: @params; // Saf3.0+, Chrome
+   -khtml-box-shadow: @params;
+     -moz-box-shadow: @params; // FF3.5+
+       -o-box-shadow: @params;
+          box-shadow: @params; // Opera 10.5, IE9+, Chrome 10+
+    .pie;
+}
+.box-shadow (@params, @params2) {
+  -webkit-box-shadow: @params, @params2; // Saf3.0+, Chrome
+   -khtml-box-shadow: @params, @params2;
+     -moz-box-shadow: @params, @params2; // FF3.5+
+       -o-box-shadow: @params, @params2;
+          box-shadow: @params, @params2; // Opera 10.5, IE9+, Chrome 10+
+    .pie;
+}
+.box-shadow (@params, @params2, @params3) {
+  -webkit-box-shadow: @params, @params2, @params3; // Saf3.0+, Chrome
+   -khtml-box-shadow: @params, @params2, @params3;
+     -moz-box-shadow: @params, @params2, @params3; // FF3.5+
+       -o-box-shadow: @params, @params2, @params3;
+          box-shadow: @params, @params2, @params3; // Opera 10.5, IE9+, Chrome 10+
+    .pie;
 }
 
 
-// ================ //
-// = CSS3 Helpers = //
-// ================ //
+.user-select (@param:none){
+  -webkit-user-select: @param;
+   -khtml-user-select: @param;
+     -moz-user-select: @param;
+      -ms-user-select: @param;
+          user-select: @param;
+}
 
-// Rounded Corners
-.borderRadius(@radius){
-  -moz-border-radius: @radius; // FF 1+
-  -webkit-border-radius: @radius; // FF 1+
-  border-radius: @radius; // Opera 10.5, IE 9, Saf5, Chrome
+.transition (@params) {
+  -webkit-transition: @params; // Safari 3.2+, Chrome
+   -khtml-transition: @params;
+     -moz-transition: @params; // FF4+
+      -ms-transition: @params; // IE10
+       -o-transition: @params; // Opera 10.5+
+          transition: @params; // CSS3
+    .pie;
+}
+
+.rgba(@colour, @alpha) {
+    @alphaColour: hsla(hue(@colour), saturation(@colour), lightness(@colour), @alpha);
+    @ieAlphaColour: argb(@alphaColour);
+     
+    background-color: @colour; // Fallback for older browsers
+    background-color: @alphaColour; 
+     
+    // IE hacks
+    zoom: 1; // hasLayout
+    background-color: transparent\9;
+    -ms-filter:  "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 8+
+        filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 6 & 7
 }
 
 // Top-to-Bottom Gradient
@@ -48,9 +239,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background-image: -webkit-linear-gradient(top, @start, @end); // Chrome 10+, Safari 5.1+
   background-image: -o-linear-gradient(top, @start, @end); // Opera 11.10+
   background-image: linear-gradient(top, @start, @end); // CSS3
-  filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d)", @start, @end); // IE6 & 7
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="@start~",endColorstr="@end~")"; // IE6 & 7
   -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d)", @start, @end); // IE8
   background-image: -ms-linear-gradient(top, @start, @end); // IE10
+  .pie;
 }
 
 // Left-to-Right Gradient
@@ -61,9 +253,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background-image: -webkit-linear-gradient(left center, right center, from(@start), to(@end)); // Chrome 10+, Safari 5.1+
   background-image: -o-linear-gradient(left, @start, @end); // Opera 11.10+
   background-image: linear-gradient(left, @start, @end); // CSS3
-  filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d, GradientType=1)", @start, @end); // IE6 & 7
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="@start~", endColorstr="@end~", GradientType=1)"; // IE6 & 7
   -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d, GradientType=1)", @start, @end); // IE8
   background-image: -ms-linear-gradient(left, @start, @end); // IE10
+  .pie;
 }
 
 // Top-to-Bottom 3 Stop Gradient
@@ -73,229 +266,47 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background-image: -webkit-gradient(linear, left top, left bottom, from(@start), color-stop(@middlePos / 100, @middle), to(@end)); // Safari 4+, Chrome
   background-image: -webkit-linear-gradient(top, from(@start), color-stop(@middlePos / 100, @middle), to(@end)); // Chrome 10+, Safari 5.1+
   background-image: -o-linear-gradient(top, @start 0%, @middle @middlePos * 1%, @end 100%); // Opera 11.10+
-  filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d)", @start, @end); // IE6 & 7
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="@start~", endColorstr="@end~")"; // IE6 & 7
   -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d)", @start, @end); // IE8
   background-image: linear-gradient(top, @start 0%, @middle @middlePos * 1%, @end 100%); // CSS3
+  .pie;
 }
 
 // Left-to-Right 3 Stop Gradient
 .gradientH3(@start, @middle, @middlePos, @end){
-  background: (@start + @end) / 2; // Non CSS3 browsers get the average color
+  background: (@start + @end)/2; // Non CSS3 browsers get the average color
   background-image: -moz-linear-gradient(left,  @start, @middle @middlePos * 1%, @end); // FF 3.6
   background-image: -webkit-gradient(linear, left center, right center, from(@start), color-stop(@middlePos / 100, @middle), to(@end)); // Safari 4+, Chrome
   background-image: -webkit-linear-gradient(left, from(@start), color-stop(@middlePos / 100, @middle), to(@end)); // Chrome 10+, Safari 5.1+
   background-image: -o-linear-gradient(left, @start 0%, @middle @middlePos * 1%, @end 100%); // Opera 11.10+
-  filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d)", @start, @end); // IE6 & 7
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="@start~", endColorstr="@end~")"; // IE6 & 7
   -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d)", @start, @end); // IE8
   background-image: linear-gradient(left, @start 0%, @middle @middlePos * 1%, @end 100%); // CSS3
+  .pie;
 }
 
 // Top-to-Bottom 4 Stop Gradient
 .gradientV4(@color1, @color2, @position2, @color3, @position3, @color4){
-  background: (@color1 + @color4) / 2; // Non CSS3 browsers get the average color
+  background: (@color1 + @color4)/2; // Non CSS3 browsers get the average color
   background-image: -moz-linear-gradient(top,  @color1, @color2 @position2 * 1%, @color3 @position3 * 1%, @color4); // FF 3.6
   background-image: -webkit-gradient(linear, left top, left bottom, from(@color1), color-stop(@position2 / 100, @color2), color-stop(@position3 / 100, @color3), to(@color4)); // Safari 4+, Chrome
   background-image: -webkit-linear-gradient(top, from(@color1), color-stop(@position2 / 100, @color2), color-stop(@position3 / 100, @color3), to(@color4)); // Chrome 10+, Safari 5.1+
   background-image: -o-linear-gradient(top, @color1 0%, @color2 @position2 * 1%, @color3 @position3 * 1%, @color4 100%); // Opera 11.10+
-  filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d)", @color1, @color4); // IE6 & 7
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="@color1~", endColorstr="@color4~")"; // IE6 & 7
   -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d)", @color1, @color4); // IE8
   background-image: linear-gradient(top, @color1 0%, @color2 @position2 * 1%, @color3 @position3 * 1%, @color4 100%); // CSS3
+  .pie;
 }
 
 // Left-to-Right 4 Stop Gradient
 .gradientH4(@color1, @color2, @position2, @color3, @position3, @color4){
-  background: (@color1 + @color4) / 2; // Non CSS3 browsers get the average color
+  background: (@color1 + @color4)/2; // Non CSS3 browsers get the average color
   background-image: -moz-linear-gradient(left,  @color1, @color2 @position2 * 1%, @color3 @position3 * 1%, @color4); // FF 3.6
   background-image: -webkit-gradient(linear, left center, right center, from(@color1), color-stop(@position2 / 100, @color2), color-stop(@position3 / 100, @color3), to(@color4)); // Safari 4+, Chrome
   background-image: -webkit-linear-gradient(left center, right center, from(@color1), color-stop(@position2 / 100, @color2), color-stop(@position3 / 100, @color3), to(@color4)); // Chrome 10+, Safari 5.1+
   background-image: -o-linear-gradient(left, @color1 0%, @color2 @position2 * 1%, @color3 @position3 * 1%, @color4 100%); // Opera 11.10+
-  filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d, GradientType=1)", @color1, @color4); // IE6 & 7
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr="@color1~", endColorstr="@color4~", GradientType=1)"; // IE6 & 7
   -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr=%d, endColorstr=%d, GradientType=1)", @color1, @color4); // IE8
   background-image: linear-gradient(left, @color1 0%, @color2 @position2 * 1%, @color3 @position3 * 1%, @color4 100%); // CSS3
-}
-
-// Drop shadow
-.boxShadow(@params){
-  -moz-box-shadow: @params; // FF3.5+
-  -webkit-box-shadow: @params; // Saf3.0+, Chrome
-  box-shadow: @params; // Opera 10.5, IE9+, Chrome 10+
-}
-
-// Transition
-.transition(@params){
-  -moz-transition: @params; // FF4+
-  -o-transition: @params; // Opera 10.5+
-  -webkit-transition: @params; // Safari 3.2+, Chrome
-  -ms-transition: @params; // IE10
-  transition: @params; // CSS3
-}
-
-
-// =========================== //
-// = Centered Content Blocks = //
-// =========================== //
-
-// For designs that involve a centered column of fixed with, I've found that
-// for great browser compatability, it's useful to separate page elements
-// into discreet horizontal chunks when possible. These two classes help.
-//
-// example:
-// <div class="wrapOut">
-//   <div class="wrapIn">
-//     header content here
-//   </div>
-// </div>
-// <div class="wrapOut">
-//   <div class="wrapIn">
-//     your main content goes here
-//   </div>
-// </div>
-
-// set the width of your body column
-@contentWidth: 960px;
-
-html{
-  width: 100%;
-  height: 100%;
-  min-width: @contentWidth; // set so that browsers resized smaller do not change column content
-}
-
-body{
-  position: relative; // to enable correct absolute positioning
-}
-
-.wrapOut{
-  width: 100%;
-  .floatClear;
-  min-width: @contentWidth;
-}
-
-.wrapIn{
-  width: @contentWidth;
-  margin: 0 auto;
-}
-
-
-// ====================================================== //
-// = Horizontal Centering for Objects of Variable Width = //
-// ====================================================== //
-
-// example:
-//<div class="outer">
-//  <div class="inner">The amount of text in this div can change, and it would still be centered</div>
-//</div>
-
-// It's worth noting that since .outer is positioned in the middle, it could protrude relatively
-// far off to the right depending on the width of the object being centered. I usually set
-// .outer's parent to overflow: hidden to make sure this doesn't affect the layout.
-
-.outer{
-  .floatClear;
-  position: relative;
-  left: 50%;
-}
-
-.inner{
-  position: relative;
-  left: -50%;
-}
-
-
-// ========================= //
-// = Call To Action Button = //
-// ========================= //
-
-// Shiny buttons make people want to click them! Just add the class callToAction to any link!
-// Or mix it in with the color as a parameter!
-
-.callToAction(@buttonColor: #c97200){
-  // slave colors
-  @defaultStart: @buttonColor + 35%;
-  @defaultEnd: @buttonColor;
-  @borderColor: @buttonColor - 50%;
-  
-  // button positioning
-  .floatClear;
-  margin: 10px 0 0 0;
-  padding: 4px 13px 2px 13px;
-  
-  // text styles
-  font-size: 30px;
-  color: #fff;
-  text-decoration: none;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  text-shadow: rgba(0,0,0,0.2) -1px 0, rgba(0,0,0,0.2) 0 -1px, rgba(255,255,255,0.2) 0 1px;
-  
-  // box styles
-  border: 1px solid @borderColor;
-  .borderRadius(6px);
-  .boxShadow(0px 0px 2px @borderColor);
-  .gradientV4(@defaultStart, @defaultStart, 46, @defaultEnd, 54, @defaultEnd);
-  
-  // hover state
-  &:hover{
-    color: #fff;
-    
-    // gradient colors
-    @start: @defaultStart - 20%;
-    @end: @defaultEnd - 20%;
-    
-    .gradientV4(@start, @start, 46, @end, 54, @end);
-  }
-  
-  // active (click) state
-  &:active{
-    color: #fff;
-    
-    // gradient colors
-    @start: @defaultStart - 40%;
-    @end: @defaultEnd - 40%;
-    
-    .gradientV4(@start, @start, 46, @end, 54, @end);
-  }
-}
-
-
-// ================== //
-// = General Styles = //
-// ================== //
-
-// No margin or padding on docroot
-html{
-  margin: 0;
-  padding: 0;
-}
-
-// No margin or padding on body, sensible font defaults
-body{
-  margin: 0;
-  padding: 0;
-  font-family: helvetica, arial, verdana, sans-serif;
-  text-rendering: optimizeLegibility; // enable better kerning and ligatures for Webkit. FF has this enabled by default for fonts >= 20px. IE does not support this
-}
-
-// Stack your boxes easily with this
-.floatClear{
-  float: left;
-  clear: both;
-}
-
-// Do you hate borders on your images and image links? Because I do.
-img{border: 0;}
-
-// Wow! You also don't like bullets? Great to meet you.
-ul{list-style-type: none;}
-
-// clearfix (thanks for the mixin-able syntax, Mark Otto!)
-.clearfix{
-  zoom: 1;
-  
-  &:after{
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-  }
+  .pie;
 }
