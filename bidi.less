@@ -1,0 +1,49 @@
+// -------------------- Bidi Mixins (far/near)  -------------------- //
+
+@rtl: false; // change, to reverse all mixins with far/near
+.direction() when (@rtl=false) { direction: ltr; }
+.direction() when (@rtl=true) { direction: rtl; }
+
+.float(far) when (@rtl=false) { float: right; }
+.float(far) when (@rtl=true)  { float: left; }
+.float(near) when (@rtl=false) { float: left; }
+.float(near) when (@rtl=true) { float: right; }
+
+.clear(far) when (@rtl=false) { clear: right; }
+.clear(far) when (@rtl=true) { clear: left; }
+.clear(near) when (@rtl=false) { clear: left; }
+.clear(near) when (@rtl=true) { clear: right; }
+
+.padding-far(@a) when (@rtl=false) { padding-right: @a; }
+.padding-far(@a) when (@rtl=true) { padding-left: @a; }
+.padding-near(@a) when (@rtl=false) { padding-left: @a; }
+.padding-near(@a) when (@rtl=true) { padding-right: @a; }
+
+.margin-far(@a) when (@rtl=false) { margin-right: @a; }
+.margin-far(@a) when (@rtl=true) { margin-left: @a; }
+.margin-near(@a) when (@rtl=false) { margin-left: @a; }
+.margin-near(@a) when (@rtl=true) { margin-right: @a; }
+
+.background-position(far, @a) when (@rtl=false) { background-position: right @a; }
+.background-position(far, @a) when (@rtl=true) { background-position: left @a; }
+.background-position(near, @a) when (@rtl=false) { background-position: left @a; }
+.background-position(near, @a) when (@rtl=true) { background-position: right @a; }
+
+.border-far(@a) when (@rtl=false) { border-right: @a; }
+.border-far(@a) when (@rtl=true) { border-left: @a; }
+.border-near(@a) when (@rtl=false) { border-left: @a; }
+.border-near(@a) when (@rtl=true) { border-right: @a; }
+
+.text-align(far) when (@rtl=false) { text-align: right; }
+.text-align(far) when (@rtl=true) { text-align: left;  }
+.text-align(near) when (@rtl=false) { text-align: left;  }
+.text-align(near) when (@rtl=true) { text-align: right;  }
+
+.near(@a) when (@rtl=false) { left: @a; }
+.near(@a) when (@rtl=true) { right: @a; }
+.far(@a) when (@rtl=false) { right: @a; }
+.far(@a) when (@rtl=true) { left: @a; }
+
+// -------------------- General Classes  -------------------- //
+.far { .float(far); }
+.near { .float(near); }
